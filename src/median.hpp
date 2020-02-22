@@ -1,8 +1,15 @@
 ﻿
 #pragma once
 
-#include <queue>
 #include <cstddef>
+#include <mutex>
+#include <queue>
+
+template <typename DataType>
+using MaxHeap = std::priority_queue<DataType>;
+
+template <typename DataType>
+using MinHeap = std::priority_queue<DataType, std::vector<DataType>, std::greater<DataType> >;
 
 template <typename DataType>
 class Median
@@ -10,15 +17,18 @@ class Median
 public:
     Median();
 
+    /* thread-safe median getter */
     DataType getMedian();
 
     void insertData(DataType data);
 
-    size_t getSize();
-
-    void printData();
+    void printData(); // todo: remove
 
 private:
-    std::priority_queue<DataType> maxHeap_;
-    std::priority_queue<DataType, std::vector<DataType>, std::greater<DataType> > minHeap_;
+    DataType internalGetMedian();
+    size_t getSize();
+
+    MaxHeap<DataType> maxHeap_;
+    MinHeap<DataType> minHeap_;
+    std::mutex mutex_;
 };

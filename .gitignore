@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs/median_project/v16/ipch/AutoPCH
+/.vs
+/out
+/CMakeSettings.json

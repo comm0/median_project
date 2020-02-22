@@ -1,8 +1,15 @@
-// #include "gtest/gtest.h"
-#include <gtest/gtest.h>
-// #include "../median.hpp"
 
-// TEST(TestCaseName, TestName) {
-//   EXPECT_EQ(1, 1);
-//   EXPECT_TRUE(true);
-// }
+#include <gtest/gtest.h>
+
+#include "../src/median.hpp" // rm ../
+
+
+
+TEST(test, testbbbB)
+{
+	ASSERT_TRUE(false);
+}
+
+// test int, dbl, object
+
+// test after every addition

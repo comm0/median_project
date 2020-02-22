@@ -1,0 +1,17 @@
+find_package( Threads )
+
+set(BINARY ${CMAKE_PROJECT_NAME})
+
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.hpp *.cpp)
+
+set(SOURCES ${SOURCES})
+
+add_executable(${BINARY}_run ${SOURCES})
+
+target_link_libraries( ${BINARY}_run ${CMAKE_THREAD_LIBS_INIT} )
+
+add_library(${BINARY}_lib STATIC ${SOURCES})
+
+
+#add_executable( test test.cpp )
+#target_link_libraries( test ${CMAKE_THREAD_LIBS_INIT} )

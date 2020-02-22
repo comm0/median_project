@@ -12,11 +12,18 @@ Median<DataType>::Median()
 template <typename DataType>
 DataType Median<DataType>::getMedian()
 {
-	if (getSize() == 0)
+    std::lock_guard<std::mutex> lock(mutex_);
+    internalGetMedian();
+}
+
+template <typename DataType>
+DataType Median<DataType>::internalGetMedian()
+{
+    if (getSize() == 0)
     {
-        return 0;
+        return 0; // todo: try to remov
     }
-    else if (maxHeap_.size() > minHeap_.size())
+    else if (maxHeap_.size() > minHeap_.size())  // todo: try to always one specific heap be greater
     {
         return maxHeap_.top();
     }
@@ -33,6 +40,7 @@ DataType Median<DataType>::getMedian()
 template <typename DataType>
 void Median<DataType>::insertData(DataType data)
 {
+    std::lock_guard<std::mutex> lock(mutex_);
     if (maxHeap_.size() > minHeap_.size())
     {
         if (data > maxHeap_.top())
@@ -61,7 +69,7 @@ void Median<DataType>::insertData(DataType data)
     }
     else /* equal sizes */
     {
-        if (data > getMedian())
+        if (data > internalGetMedian()) // try to remove
         {
             minHeap_.push(data);
         }
@@ -91,5 +99,5 @@ void Median<DataType>::printData()
         { std::cout << minHeap_.top() << "_"; minHeap_.pop();}
 }
 
-template class Median<int>;
+// template class Median<int>;
 template class Median<double>;
