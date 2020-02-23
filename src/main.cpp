@@ -1,41 +1,40 @@
 
+#include <algorithm>
+#include <iostream>
 #include <thread>
 #include <vector>
-#include <iostream>
 
+#include "constant.hpp"
 #include "median.hpp"
-#include "dataGenerator.hpp"
 
-constexpr int SENDER_NUMBER = 10; //move it to some namespace
-constexpr int SENDER_REPEAT = 10;
 
-constexpr Functor<int, SENDER_NUMBER * SENDER_REPEAT> f;
-auto dbls = f(100);
-
-void sender(Median<double>& median, int threadIndex)
+void sender(median::Median<constant::DataType>& medianContainer, const std::uint32_t threadIndex)
 {
-    //auto dbls = f(0, 10);
-    //for (auto& dbl : dbls)
-    auto offset = 10 * threadIndex;
-    for (int i = 0 + offset; i < 10 + offset; ++i)
-        std::cout << "dbl: " << dbls[i] << "\n";
-    std::cout << "\n\n";
-
-    for (int i = 0; i < SENDER_REPEAT; ++i)
-        median.insertData(dbls[0]);
+    // distribute values between all working senders
+    const auto offset = constant::SENDER_REPEAT * threadIndex;
+    for (std::uint32_t i = offset; i < constant::SENDER_REPEAT + offset; ++i)
+        medianContainer.insertData(constant::DATA_ARRAY[i]);
 }
 
 int main()
 {
-    Median<double> median;
+    median::Median<constant::DataType> medianContainer;
     std::vector<std::thread> threads;
-    for (int i = 0; i < SENDER_NUMBER; ++i)
-        threads.emplace_back(sender, std::ref(median), i);
+    for (std::uint32_t i = 0; i < constant::SENDER_NUMBER; ++i)
+        threads.emplace_back(sender, std::ref(medianContainer), i);
 
     for (auto& thread : threads)
         thread.join();
 
-    median.printData();
+
+    std::cout << "\n RESULTs: \n";
+    std::sort(constant::DATA_ARRAY.begin(), constant::DATA_ARRAY.end());
+    const auto realMedian = constant::TOTAL_DATA_NUM % 2 != 0 ?
+        constant::DATA_ARRAY[constant::TOTAL_DATA_NUM / 2] :
+        (constant::DATA_ARRAY[constant::TOTAL_DATA_NUM / 2] + constant::DATA_ARRAY[(constant::TOTAL_DATA_NUM / 2) - 1]) / 2;
+
+    std::cout << "realMedian: " << realMedian << "\n";
+    std::cout << "getMedian :" << medianContainer.getMedian() << "\n";
 
     return 0;
 }

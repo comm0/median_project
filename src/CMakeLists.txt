@@ -1,4 +1,5 @@
-find_package( Threads )
+
+find_package(Threads)
 
 set(BINARY ${CMAKE_PROJECT_NAME})
 
@@ -11,7 +12,3 @@ add_executable(${BINARY}_run ${SOURCES})
 target_link_libraries( ${BINARY}_run ${CMAKE_THREAD_LIBS_INIT} )
 
 add_library(${BINARY}_lib STATIC ${SOURCES})
-
-
-#add_executable( test test.cpp )
-#target_link_libraries( test ${CMAKE_THREAD_LIBS_INIT} )

@@ -4,15 +4,17 @@
 #include <ctime>
 #include <random>
 
-// compile-time random generator based on article
+// compile-time random number generator based on article
 // https://mklimenko.github.io/english/2018/06/04/constexpr-random/
 
+namespace data
+{
 
 template <typename T, std::size_t size_>
-class Functor
+class DataGenerator
 {
 public:
-    constexpr auto operator () (T max, T min = 0) const
+    constexpr auto operator () (const T max, const T min = 0) const
     {
         return uniform_distribution(min, max);
     }
@@ -57,3 +59,5 @@ private:
     static constexpr int lce_c_ = 150889;
     static constexpr int lce_m_ = 714025;
 };
+
+}  // namespace data
