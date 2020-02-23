@@ -1,9 +1,9 @@
 
 ## Runtime median getter project
 
-#### build on unix system:
+#### build on unix system (tested on Ubuntu 16.04.6 LTS):
 * git clone repo
-* please clone github.com/google/googletest.git into test folder (and fix the CMAKE_VERSION VERSION_GREATER_EQUAL to CMAKE_VERSION VERSION_GREATER if you CMake requires it)
+* please clone https://github.com/google/googletest.git into test folder (and fix the CMAKE_VERSION VERSION_GREATER_EQUAL to CMAKE_VERSION VERSION_GREATER if you CMake requires it)
 * mkdir build && cd build && cmake .. && make all
 
 ###### run program:
